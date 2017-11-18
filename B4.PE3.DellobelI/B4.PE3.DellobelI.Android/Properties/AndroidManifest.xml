@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.B4.PE3.DellobelI">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.B4.PE3.DellobelI" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="15" />
-	<application android:label="B4.PE3.DellobelI.Android"></application>
+	<application android:label="Last Location"></application>
 </manifest>

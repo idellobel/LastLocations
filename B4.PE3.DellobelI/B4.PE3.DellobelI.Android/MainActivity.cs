@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace B4.PE3.DellobelI.Droid
 {
-    [Activity(Label = "B4.PE3.DellobelI", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Last Location", Theme = "@style/MainTheme")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
