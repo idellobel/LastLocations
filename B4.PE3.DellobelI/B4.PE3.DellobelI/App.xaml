@@ -1,10 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conv="clr-namespace:B4.PE3.DellobelI.Converters"
+              xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
              x:Class="B4.PE3.DellobelI.App">
 	<Application.Resources>
+        <ResourceDictionary>
+            <!-- Converters -->
+            <conv:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConv" />
 
-		<!-- Application resource dictionary -->
+            <!-- Common Colors -->
+            <Color x:Key="ColorPrimary">#2196F3</Color>
+            <Color x:Key="ColorSecundary">#1976D2</Color>
+            <Color x:Key="ColorError">#ff0000</Color>
+            <Color x:Key="ColorAccent">#ffffff</Color>
+            
+            <!--Reusable OnPlatforms--> 
+            <OnPlatform x:Key="PlatformContentPagePadding" x:TypeArguments="Thickness">
+                <On Platform="iOS">5, 20, 5, 5</On>
+                <On Platform="Android">5, 0, 5, 0</On>
+                <On Platform="Windows, UWP">5, 0, 5, 0</On>
+            </OnPlatform>
+            
+             <!--Implicit Page Styles (for ALL pages, no x:Key present!)--> 
+            <Style x:Key="BasePageStyle" TargetType="Page">
+                <!--<Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />
+                <Setter Property="Opacity" Value="0.9"/>-->
+            </Style>
+            <Style x:Key="ContentPageStyle" TargetType="ContentPage" BasedOn="{StaticResource BasePageStyle}" />
 
-	</Application.Resources>
+            <!-- ContentPage Style -->
+            <Style x:Key="PlatformPaddedContentPageStyle" TargetType="ContentPage">
+                <!--<Setter Property="BackgroundColor" Value="{StaticResource PageBackgroundColor}" />-->
+                <Setter Property="Padding" Value="{StaticResource PlatformContentPagePadding}" />
+            </Style>
+
+            <!-- On Platform Resources -->
+        <OnPlatform x:Key="DefaultThickness" x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="15"></On>
+            <On Platform="Android" Value="20"></On>
+            <On Platform="Windows,UWP" Value="10"></On>
+        </OnPlatform>
+        <OnPlatform x:Key="ErrorMessageFontSize" x:TypeArguments="NamedSize">
+            <On Platform="iOS, Android" Value="Small"></On>
+            <On Platform="Windows" Value="Micro"></On>
+        </OnPlatform>
+        <!-- Explicit Styles -->
+        <Style x:Key="MainLayout" TargetType="StackLayout">
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}" />
+        </Style>
+
+            <Style x:Key="ErrorMessage" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource ColorError}" />
+                <Setter Property="FontSize" Value="{StaticResource ErrorMessageFontSize}" />
+                <Setter Property="Margin" Value="2,-5,7,0" />
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+
+            <!--Global, Implicit (=Valid for All controls of this Targettype)-->
+            <Style TargetType="views:BusyPage" >
+                <Setter Property="BackgroundColor" Value="#d9d9d9" />
+                <Setter Property="Opacity" Value="0.5"/>
+                <Setter Property="IsVisible" Value="False" />
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="All" />
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1" />
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
 </Application>

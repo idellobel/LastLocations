@@ -1,4 +1,5 @@
 ﻿using B4.PE3.DellobelI.Domain.Models;
+using B4.PE3.DellobelI.Domain.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace B4.PE3.DellobelI.Domain.Services.Mock
 {
-    public class UsersInMemoryService
+    public class UsersInMemoryService : IUsersService
     {
         private static List<User> users = new List<User>
         {
@@ -20,7 +21,7 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
 
         public async Task<User> GetUserById(Guid id)
         {
-            await Task.Delay(Constants.Mocking.FakeDelay);
+            await Task.Delay(Constant.Mocking.FakeDelay);
             return users.FirstOrDefault(u => u.Id == id);
         }
 

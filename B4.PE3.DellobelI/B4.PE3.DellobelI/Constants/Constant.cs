@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B4.PE3.DellobelI
 {
-    public static class Constants
+    public static class Constant
     {
         public static class Mocking
         {
@@ -16,9 +16,9 @@ namespace B4.PE3.DellobelI
             public const int FakeDelay = 0;
         }
 
-        public static class MessageNames
-        {
-            public const string LocationsSaved = "LOCATIONSSAVED";
-        }
+        //public static class MessageNames
+        //{
+        //    public const string LocationsSaved = "LOCATIONSSAVED";
+        //}
     }
 }

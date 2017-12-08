@@ -19,9 +19,11 @@ namespace B4.PE3.DellobelI.UWP
     {
         public MainPage()
         {
+            Xamarin.FormsMaps.Init("oX4W3w39inKHLCarhcBC ~ kuJRGh2dakan68Ueb7xopA ~ Ah95VcIq0mTPUKdBX9bcrfa2f4b2Ft1d7DqCXBqUEEjl9XzW1AORVFSVqyruF3Xv ");
             this.InitializeComponent();
-
+           
             LoadApplication(new B4.PE3.DellobelI.App());
+           
         }
     }
 }

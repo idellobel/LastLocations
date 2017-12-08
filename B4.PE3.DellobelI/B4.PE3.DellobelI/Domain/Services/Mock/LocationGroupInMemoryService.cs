@@ -1,4 +1,5 @@
 ﻿using B4.PE3.DellobelI.Domain.Models;
+using B4.PE3.DellobelI.Domain.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,102 +8,101 @@ using System.Threading.Tasks;
 
 namespace B4.PE3.DellobelI.Domain.Services.Mock
 {
-    public class LocationGroupInMemoryService
-    { 
-    private static List<LocationGroup> locationsList;
-    private static List<LocationGroup> LocationsList
-        {
-        get
-        {
-            if (locationsList == null)
-                    locationsList = InitializeLocationsList();
-            return locationsList;
-        }
-    }
-
-    private static List<LocationGroup> InitializeLocationsList()
+    public class LocationGroupInMemoryService : ILocationGroupsService
     {
-        var locationGroup = new List<LocationGroup>
+        private static List<LocationGroup> locationGroupList;
+        private static List<LocationGroup> LocationGroupList
+        {
+            get
+            {
+                if (locationGroupList == null)
+                    locationGroupList = InitializeLocationGroupList();
+                return locationGroupList;
+            }
+        }
+
+        private static List<LocationGroup> InitializeLocationGroupList()
+        {
+            var locations = new List<LocationGroup>
             {
                 new LocationGroup{
                     Id = Guid.NewGuid(),
                     OwnerId = Guid.Empty, //the first user
-                    Title = "Siegfried's first bucket list",
-                    Description = "A simple bucket list",
-                    IsFavorite = true,
+                    Title = "LocatieLijst Nieuwpoort",
+                    Description = "Mijn regio",
+                    //IsFavorite = true,
 
                 }
             };
 
-        //     public Guid LocationId { get; set; }
-        //public double Latitude { get; set; }
-        //public double Longitude { get; set; }
-        //public DateTime CurrentLocation { get; set; }
-        //public string LocationName { get; set; }
-        //public int Position { get; set; }
 
-        //items for first bucket
-        locationGroup[0].LocationItems = new List<Location>
+            //items for first locationGroup
+            locations[0].LocationItems = new List<Location>
             {
                 new Location{
                     LocationId = Guid.NewGuid(), LocationName="Thuis",
                     Position = 1, Longitude = 51.134717, Latitude = 2.761236,
-                    CurrentLocation = DateTime.UtcNow,
-                    LocationGroup = locationGroup[0],
-                    LocationGroupId = locationGroup[0].Id
+                    TimeLocation = Convert.ToDateTime(" 02 December 2017 08:03:38 "),
+                    LocationGroup = locations[0],
+                    LocationGroupId = locations[0].Id
                 },
                 new Location{
-                    LocationId = Guid.NewGuid(), LocationName="AlberMonument",
-                    Position = 1, Longitude = 51.136070, Latitude = 2.755743,
-                    CurrentLocation = DateTime.UtcNow,
-                    LocationGroup = locationGroup[0],
-                    LocationGroupId = locationGroup[0].Id
+                    LocationId = Guid.NewGuid(), LocationName="AlbertMonument",
+                    Position = 2, Longitude = 51.136070, Latitude = 2.755743,
+                    TimeLocation = Convert.ToDateTime(" 25 November 2017 12:05:14"),
+                    LocationGroup = locations[0],
+                    LocationGroupId = locations[0].Id
                 },
                new Location{
                     LocationId = Guid.NewGuid(), LocationName="Vismijn",
-                    Position = 1, Longitude = 51.133607,  Latitude = 2.748845,
-                    CurrentLocation = DateTime.UtcNow,
-                    LocationGroup = locationGroup[0],
-                    LocationGroupId = locationGroup[0].Id
+                    Position = 3, Longitude = 51.133607,  Latitude = 2.748845,
+                    TimeLocation = Convert.ToDateTime(" 18 November 2017 17:30:00 "),
+                    LocationGroup = locations[0],
+                    LocationGroupId = locations[0].Id
                 }
             };
-        return locationGroup;
-    }
-
-    public async Task<IEnumerable<LocationGroup>> GetLocationGroupListsForUser(Guid userid)
-    {
-        await Task.Delay(Constants.Mocking.FakeDelay);
-        return LocationsList.Where(b => b.OwnerId == userid);
-    }
-
-    public async Task<LocationGroup> GetLocationGroupList(Guid bucketId)
-    {
-        await Task.Delay(Constants.Mocking.FakeDelay);
-        return LocationsList.FirstOrDefault(b => b.Id == bucketId);
-    }
-
-    public async Task SaveBucketList(LocationGroup bucket)
-    {
-        await Task.Delay(Constants.Mocking.FakeDelay);
-        var savedLocationGroup = LocationsList.FirstOrDefault(b => b.Id == bucket.Id);
-        if (savedLocationGroup == null) //this is a new bucket
-        {
-            savedLocationGroup = bucket;
-            savedLocationGroup.Id = Guid.NewGuid();
-                LocationsList.Add(savedLocationGroup);
+            return locations;
         }
-        //savedLocationGroup.Title = bucket.Title;
-        //savedLocationGroup.Description = bucket.Description;
-        //savedLocationGroup.ImageUrl = bucket.ImageUrl;
-        //savedLocationGroup.IsFavorite = bucket.IsFavorite;
-        //savedLocationGroup.OwnerId = bucket.OwnerId;
-        //savedLocationGroup.Items = bucket.Items;
-    }
 
-    public async Task DeleteLocationsList(Guid bucketId)
-    {
-        await Task.Delay(Constants.Mocking.FakeDelay);
-        var bucket = LocationsList.FirstOrDefault(b => b.Id == bucketId);
-            LocationsList.Remove(bucket);
+        public async Task<IEnumerable<LocationGroup>> GetLocationGrouplistForUser(Guid userid)
+        {
+            await Task.Delay(Constant.Mocking.FakeDelay);
+            return LocationGroupList.Where(b => b.OwnerId == userid);
+        }
+
+       
+        public async Task<LocationGroup> GetLocationGroupList(Guid locationGroupId)
+        {
+            await Task.Delay(Constant.Mocking.FakeDelay);
+            return LocationGroupList.FirstOrDefault(b => b.Id == locationGroupId);
+        }
+
+
+
+        public async Task SaveLocationGroupList(LocationGroup locationGroup)
+        {
+            await Task.Delay(Constant.Mocking.FakeDelay);
+            var savedLocationGroup = LocationGroupList.FirstOrDefault(l => l.Id == locationGroup.Id);
+            if (savedLocationGroup == null) //this is a new locationGroup
+            {
+                savedLocationGroup = locationGroup;
+                savedLocationGroup.Id = Guid.NewGuid();
+                LocationGroupList.Add(savedLocationGroup);
+            }
+            savedLocationGroup.Title = locationGroup.Title;
+            savedLocationGroup.Description = locationGroup.Description;
+            savedLocationGroup.IsFavorite = locationGroup.IsFavorite;
+            savedLocationGroup.OwnerId = locationGroup.OwnerId;
+            savedLocationGroup.LocationItems = locationGroup.LocationItems;
+        }
+
+        public async Task DeleteLocationGroupList(Guid locationGroupId)
+        {
+            await Task.Delay(Constant.Mocking.FakeDelay);
+            var locationGroup = LocationGroupList.FirstOrDefault(l => l.Id == locationGroupId);
+            LocationGroupList.Remove(locationGroup);
+        }
+
+     
     }
 }

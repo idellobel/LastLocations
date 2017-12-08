@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
+             xmlns:vm="clr-namespace:B4.PE3.DellobelI.ViewModels"
+             xmlns:bhv="clr-namespace:B4.PE3.DellobelI.Behaviors" 
+             Title="{Binding PageTitle}"
+             x:Name="page"
+             x:Class="B4.PE3.DellobelI.Pages.LocationGroupItemPage">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="&#128190;" Command="{Binding SaveLocationGroupCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <StackLayout Style="{StaticResource MainLayout}">
+                    <Label Text="Titel" />
+                    <Entry Text="{Binding LocationGroupTitle}" Placeholder="Voeg een titel toe" />
+                    <Label Text="{Binding LocationGroupTitleError}" 
+                           IsVisible="{Binding LocationGroupTitleErrorVisible}" 
+                           Style="{StaticResource ErrorMessage}" />
+                    <Label Text="Beschrijving" />
+                    <Entry Text="{Binding LocationGroupDescription}" Placeholder="Voer een korte beschrijving in" />
+                    <Label Text="{Binding LocationGroupDescriptionError}" 
+                           IsVisible="{Binding LocationGroupDescriptionErrorVisible}" 
+                           Style="{StaticResource ErrorMessage}" />
+
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Locaties op kaart" Command="{}" HorizontalOptions="Start" Margin="0,20,0,0" />
+                        <Button Text="Voeg locatie toe" Command="{Binding OpenLocationPageCommand}" HorizontalOptions="End" Margin="0,20,0,0" />
+                       
+                    </StackLayout>
+                   
+                    <ListView ItemsSource="{Binding Locations}">
+                        <ListView.Behaviors>
+                            <bhv:EventToCommandBehavior 
+                            EventName="ItemTapped"  
+                            Command="{Binding OpenItemPageCommand}"
+                            EventArgsConverter="{StaticResource ItemTappedEventArgsConv}" />
+                        </ListView.Behaviors>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Command="{Binding BindingContext.OpenLocationPageCommand, Source={x:Reference page}}" 
+                                          CommandParameter="{Binding .}" 
+                                          Text="&#128065;" />
+                                        <MenuItem Command="{Binding BindingContext.DeleteLocationCommand, Source={x:Reference page}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="&#10008;"
+                                          IsDestructive="True" />
+                                    </ViewCell.ContextActions>
+                                    <StackLayout HeightRequest="50">
+                                        <Label Text="{Binding LocationName}" 
+                                    VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                   
+                </StackLayout>
+            </ScrollView>
+            <views:BusyPage IsVisible="{Binding IsBusy}" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

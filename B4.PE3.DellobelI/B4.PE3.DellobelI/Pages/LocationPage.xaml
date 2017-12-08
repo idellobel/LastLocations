@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
+             Title="{Binding PageTitle}"
+             x:Class="B4.PE3.DellobelI.Pages.LocationPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="&#128190;" Command="{Binding SaveLocationCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <StackLayout Style="{StaticResource MainLayout}">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Plaats:" />
+                        <Label Text="{Binding LocationName}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Longitude:" />
+                        <Label Text="{Binding Longitude}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Latitude" />
+                        <Label Text="{Binding Latitude}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Datum:" />
+                        <Label Text="{Binding TimeLocation}" />
+                    </StackLayout>
+            </StackLayout>
+
+
+                   
+        </ScrollView>
+            <views:BusyPage IsVisible="{Binding IsBusy}"/>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

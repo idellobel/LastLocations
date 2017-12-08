@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using B4.PE3.DellobelI.Domain.Services.Abstract;
+using B4.PE3.DellobelI.Domain.Services.Mock;
+using B4.PE3.DellobelI.ViewModels;
+using FreshMvvm;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 namespace B4.PE3.DellobelI
 {
@@ -13,7 +15,13 @@ namespace B4.PE3.DellobelI
         {
             InitializeComponent();
 
-            MainPage = new B4.PE3.DellobelI.MainPage();
+            FreshIOC.Container.Register<IAppSettingsService, AppSettingsInMemoryService>();
+            FreshIOC.Container.Register<IUsersService, UsersInMemoryService>();
+            FreshIOC.Container.Register<ILocationGroupsService, LocationGroupInMemoryService>();
+            FreshIOC.Container.Register<ILocationsService, LocationInMemoryService>();
+
+            MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());
+
         }
 
         protected override void OnStart()

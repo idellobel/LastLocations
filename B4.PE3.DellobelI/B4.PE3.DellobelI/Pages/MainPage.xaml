@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:B4.PE3.DellobelI.ViewModels"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
+             x:Name="page"
+             Title="Huidige locatie"
+             x:Class="B4.PE3.DellobelI.Pages.MainPage">
+    <!--<ContentPage.BindingContext>
+        <vm:MainViewModel/>
+    </ContentPage.BindingContext>-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="&#128190;"   Command="{Binding SaveCurrentLocationCommand}"  ></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content >
+        <AbsoluteLayout >
+            <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        >
+            
+        <StackLayout Style="{StaticResource MainLayout}" >
+            <!--<ListView />-->
+            <Grid>
+                <Grid.RowDefinitions Height="1*" ></Grid.RowDefinitions>
+                <Grid.RowDefinitions Height="5*" ></Grid.RowDefinitions>
+                <Grid.RowDefinitions Height="4*" ></Grid.RowDefinitions>
+            </Grid>
+            <StackLayout Grid.Row="1" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+                    <StackLayout.WidthRequest>
+                        <OnIdiom x:TypeArguments="x:Double"
+                                 Phone="315"
+                                 Desktop="1350">
+                        </OnIdiom>
+                    </StackLayout.WidthRequest>
+                        <StackLayout.HeightRequest>
+                        <OnIdiom x:TypeArguments="x:Double"
+                                 Phone="300"
+                                 Desktop="500">
+                        </OnIdiom>
+                        </StackLayout.HeightRequest>
+                        <maps:Map x:Name="MyMap"
+                    IsShowingUser="true"
+                    MapType="Street"            />
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+
+                        <Button x:Name="btnGetLocation" Text="Druk om ophalen gegevens :" Command="{Binding GetCurrentLocationCommand }" IsEnabled="{Binding IsEnabled}"></Button>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Center">
+                    <Label Text="Breedtegraad:" ></Label>
+                    <Label x:Name="lblLatitude" Text="{Binding Latitude}" ></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Center">
+                    <Label Text="Lengtegraad:" ></Label>
+                    <Label x:Name="lblLongitude" Text="{Binding Longitude}" ></Label>
+                </StackLayout>
+               
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Center">
+                        <Label Text="Huidige tijd:" ></Label>
+                        <Label x:Name="lblUniverseleTijd" Text="{Binding TimeLocation}" ></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Center">
+                        <Label Text="Locatie:" ></Label>
+                        <Entry x:Name="lblLocatieNaam" Text="{Binding LocationName}" FontSize="12"  
+                                   Placeholder="Geef de locatie een naam" Keyboard="Default" ></Entry>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Center">
+                        <Label Text="{Binding LocationNameError}" 
+                            IsVisible="{Binding LocationNameErrorVisible}" 
+                            Style="{StaticResource ErrorMessage}" />    
+                    </StackLayout>
+
+
+                </StackLayout>
+        </StackLayout>
+               
+            
+        </ScrollView>
+            <views:BusyPage IsVisible="{Binding IsBusy}" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

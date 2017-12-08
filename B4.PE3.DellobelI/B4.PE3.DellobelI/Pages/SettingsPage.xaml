@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="B4.PE3.DellobelI.Pages.SettingsPage"
+             Title="Settings">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="&#128190;" Command="{Binding SaveSettingsCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <TableView>
+        <TableRoot>
+            <TableSection Title="Gebruiker instelling">
+                <EntryCell Text="{Binding UserName}" Placeholder="Vul gebruikersnaam in" Label="Username" Keyboard="Text" />
+                <EntryCell Text="{Binding Email}" Placeholder="Voeg e-mail toe" Label="E-mail" Keyboard="Email" />
+            </TableSection>
+            <TableSection Title="Algemene instellingen">
+                <SwitchCell On="{Binding EnableListSharing}" Text="Deel lijsten" />
+                <SwitchCell On="{Binding EnableNotifications}" Text="Meldingen" />
+            </TableSection>
+        </TableRoot>
+        </TableView>
+  
+</ContentPage>

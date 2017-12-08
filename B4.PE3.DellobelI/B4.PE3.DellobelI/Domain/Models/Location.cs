@@ -11,10 +11,12 @@ namespace B4.PE3.DellobelI.Domain.Models
         public Guid LocationId { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public DateTime CurrentLocation { get; set; }
+        public double Altitude { get; set; }
+        public DateTime TimeLocation { get; set; }
         public string LocationName { get; set; }
         public int Position { get; set; }
         public Guid LocationGroupId { get; set; }
         public LocationGroup LocationGroup { get; set; }
+        public Guid Id { get; internal set; }
     }
 }
