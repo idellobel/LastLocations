@@ -230,7 +230,7 @@ namespace B4.PE3.DellobelI.ViewModels
         {
             Inactive = false;
             currentLocation = new Location();
-            currentLocation.Id = Guid.NewGuid();
+            currentLocation.LocationId = Guid.NewGuid();
             currentLocation.Latitude = Convert.ToDouble(Latitude);
             currentLocation.Longitude = Convert.ToDouble(Longitude);
             currentLocation.TimeLocation = Convert.ToDateTime(TimeLocation);

@@ -46,7 +46,7 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
         public async Task<Location> GetById(Guid id)
         {
             await Task.Delay(0);
-            return inMemLocations.FirstOrDefault(cm => cm.Id == id);
+            return inMemLocations.FirstOrDefault(cm => cm.LocationId == id);
         }
 
         /// <summary> 
@@ -64,13 +64,13 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
         public async Task Save(Location location)
         {
 
-            var savedlocation = await GetById(location.Id);
+            var savedlocation = await GetById(location.LocationId);
             if (savedlocation == null)
             {
                 savedlocation = new Location();
                 inMemLocations.Add(savedlocation);
             }
-            savedlocation.Id = location.Id;
+            savedlocation.LocationId = location.LocationId;
             savedlocation.LocationName = location.LocationName ;
             savedlocation.TimeLocation = location.TimeLocation;
             savedlocation.Latitude = location.Latitude;
@@ -80,7 +80,7 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
         public async Task DeleteLocation(Guid LocationId)
         {
             await Task.Delay(Constant.Mocking.FakeDelay);
-            var locationToDelete = inMemLocations.FirstOrDefault(l => l.Id == LocationId);
+            var locationToDelete = inMemLocations.FirstOrDefault(l => l.LocationId == LocationId);
             inMemLocations.Remove(locationToDelete);
         }
 

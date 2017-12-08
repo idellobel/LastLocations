@@ -91,7 +91,6 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
             }
             savedLocationGroup.Title = locationGroup.Title;
             savedLocationGroup.Description = locationGroup.Description;
-            savedLocationGroup.IsFavorite = locationGroup.IsFavorite;
             savedLocationGroup.OwnerId = locationGroup.OwnerId;
             savedLocationGroup.LocationItems = locationGroup.LocationItems;
         }

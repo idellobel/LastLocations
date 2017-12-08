@@ -1,5 +1,6 @@
 ﻿using B4.PE3.DellobelI.Domain.Services.Abstract;
 using B4.PE3.DellobelI.Domain.Services.Mock;
+using B4.PE3.DellobelI.Domain.Services.SQLite;
 using B4.PE3.DellobelI.ViewModels;
 using FreshMvvm;
 using Xamarin.Forms;
@@ -15,9 +16,14 @@ namespace B4.PE3.DellobelI
         {
             InitializeComponent();
 
-            FreshIOC.Container.Register<IAppSettingsService, AppSettingsInMemoryService>();
-            FreshIOC.Container.Register<IUsersService, UsersInMemoryService>();
-            FreshIOC.Container.Register<ILocationGroupsService, LocationGroupInMemoryService>();
+            //FreshIOC.Container.Register<IAppSettingsService, AppSettingsInMemoryService>();
+            //FreshIOC.Container.Register<IUsersService, UsersInMemoryService>();
+            //FreshIOC.Container.Register<ILocationGroupsService, LocationGroupInMemoryService>();
+            //FreshIOC.Container.Register<ILocationsService, LocationInMemoryService>();
+
+            FreshIOC.Container.Register<IAppSettingsService>( new AppSettingsInMemorySQLiteService());
+            FreshIOC.Container.Register<IUsersService>(new UsersSQLiteService());
+            FreshIOC.Container.Register<ILocationGroupsService>(new LocationGroupsSQLiteService());
             FreshIOC.Container.Register<ILocationsService, LocationInMemoryService>();
 
             MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());

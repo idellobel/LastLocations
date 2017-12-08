@@ -163,7 +163,7 @@ namespace B4.PE3.DellobelI.ViewModels
                         //if (currentLocation.Id == Guid.Empty)
                         //{
                             currentLocation.LocationGroup.LocationItems.Add(currentLocation);
-                            currentLocation.Id = Guid.NewGuid();
+                            currentLocation.LocationId = Guid.NewGuid();
                         //}
 
                         MessagingCenter.Send(this,

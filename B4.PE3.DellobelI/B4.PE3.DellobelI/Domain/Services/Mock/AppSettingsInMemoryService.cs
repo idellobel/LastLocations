@@ -5,7 +5,7 @@ using B4.PE3.DellobelI.Domain.Models;
 
 namespace B4.PE3.DellobelI.Domain.Services.Mock
 {
-    public class AppSettingsInMemoryService : IAppSettingsService
+    public class AppSettingsInMemorySQLiteService : IAppSettingsService
     {
         private static AppSettings currentSettings = new AppSettings
         {
