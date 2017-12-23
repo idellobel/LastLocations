@@ -28,6 +28,9 @@ namespace B4.PE3.DellobelI
 
             MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());
 
+            //Onmiddellijk naar LocationGroupViewmodel
+            //MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LocationGroupViewModel>());
+
         }
 
         protected override void OnStart()

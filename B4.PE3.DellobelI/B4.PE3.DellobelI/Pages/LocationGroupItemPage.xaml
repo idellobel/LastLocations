@@ -28,8 +28,10 @@
                            Style="{StaticResource ErrorMessage}" />
 
                     <StackLayout Orientation="Horizontal">
-                        <Button Text="Locaties op kaart" Command="{}" HorizontalOptions="Start" Margin="0,20,0,0" />
-                        <Button Text="Voeg locatie toe" Command="{Binding OpenLocationPageCommand}" HorizontalOptions="End" Margin="0,20,0,0" />
+                        <!--<Button Text="Locaties op kaart" Command="{}" HorizontalOptions="Start" Margin="0,20,0,0" />-->
+                        <Button Text="Voeg locatie toe" Command="{Binding OpenLocationPageCommand}" 
+                                HorizontalOptions="End" Margin="0,20,0,0"
+                                IsEnabled="{Binding IsEnabled}"/>
                        
                     </StackLayout>
                    
@@ -44,9 +46,9 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <ViewCell.ContextActions>
-                                        <MenuItem Command="{Binding BindingContext.OpenLocationPageCommand, Source={x:Reference page}}" 
+                                        <!--<MenuItem Command="{Binding BindingContext.OpenLocationPageCommand, Source={x:Reference page}}" 
                                           CommandParameter="{Binding .}" 
-                                          Text="&#128065;" />
+                                          Text="&#128064;" />-->
                                         <MenuItem Command="{Binding BindingContext.DeleteLocationCommand, Source={x:Reference page}}"
                                           CommandParameter="{Binding .}"
                                           Text="&#10008;"

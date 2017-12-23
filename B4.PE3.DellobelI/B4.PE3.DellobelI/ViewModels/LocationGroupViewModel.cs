@@ -9,22 +9,23 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using B4.PE3.DellobelI.Domain.Services.Abstract;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace B4.PE3.DellobelI.ViewModels
 {
     public class LocationGroupViewModel : FreshBasePageModel
     {
 
-        private Location currentLocation;
-        ILocationsService locationsService;
-        IAppSettingsService settingsService;
-        ILocationGroupsService locationGroupsService;
+        //private Location currentLocation;
+        //ILocationsService locationsService;
+        private IAppSettingsService settingsService;
+        private ILocationGroupsService locationGroupsService;
         
 
-        public LocationGroupViewModel(ILocationsService locationsService, IAppSettingsService settingsService, ILocationGroupsService locationGroupsService)
+        public LocationGroupViewModel(/*ILocationsService locationsService,*/ IAppSettingsService settingsService, ILocationGroupsService locationGroupsService)
         {
             
-            this.locationsService = locationsService;
+            //this.locationsService = locationsService;
             this.settingsService = settingsService;
             this.locationGroupsService = locationGroupsService;
 
@@ -54,13 +55,12 @@ namespace B4.PE3.DellobelI.ViewModels
         }
 
         public ICommand OpenLocationGroupItemPageCommand => new Command<LocationGroup>(
-          async  (LocationGroup locationGroup) =>
+          async (LocationGroup locationGroup) =>
             {
-                
-                await CoreMethods.PushPageModel<LocationGroupItemViewModel>(locationGroup, false, true);
+               await CoreMethods.PushPageModel<LocationGroupItemViewModel>(locationGroup, false, true);
             }
         );
-      
+
 
 
         public ICommand OpenSettingsPageCommand => new Command(
@@ -70,12 +70,29 @@ namespace B4.PE3.DellobelI.ViewModels
             }
         );
 
+        public ICommand BackToMainPageCommand => new Command(
+             async () =>
+             {
+                 await CoreMethods.PushPageModel<MainViewModel>(true);
+             }
+        );
+
+        public ICommand OpenMapCommand => new Command<LocationGroup>(
+             async (LocationGroup locatiegroep) =>
+             {
+                 await CoreMethods.PushPageModel<MapViewModel>(locatiegroep,false,true);
+             }
+        );
+
+
         public ICommand DeleteLocationGroupCommand => new Command<LocationGroup>(
           async (LocationGroup locatiegroep) => {
               await locationGroupsService.DeleteLocationGroupList(locatiegroep.Id);
               await RefreshLocationGroupList();
           }
       );
+
+       
 
         protected async override void ViewIsAppearing(object sender, EventArgs e)
         {
@@ -96,7 +113,7 @@ namespace B4.PE3.DellobelI.ViewModels
             LocationGrouplist = new ObservableCollection<LocationGroup>(locationGrouplist);
             IsBusy = false;
         }
-
+       
 
     }
 

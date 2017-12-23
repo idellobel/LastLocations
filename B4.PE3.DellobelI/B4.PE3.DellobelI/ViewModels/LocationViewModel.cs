@@ -10,20 +10,23 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using B4.PE3.DellobelI.Domain.Services.Mock;
 
 namespace B4.PE3.DellobelI.ViewModels
 {
     public class LocationViewModel : FreshBasePageModel
     {
+        private Location location;
         private Location currentLocation;
         private ILocationsService locationsService;
         private LocationItemValidator locationValidator;
         private ILocationGroupsService locationGroupsService;
+        //private ObservableCollection<Location> imLocation;
 
-        public LocationViewModel(ILocationsService locationsService,ILocationGroupsService locationGroupsService )
+        public LocationViewModel(ILocationsService locationsService, ILocationGroupsService locationGroupService )
         {
             this.locationsService = locationsService;
-            this.locationGroupsService = locationGroupsService;
+            this.locationGroupsService = locationGroupService;
             locationValidator = new LocationItemValidator();
         }
 
@@ -42,7 +45,19 @@ namespace B4.PE3.DellobelI.ViewModels
             }
         }
 
-        private ObservableCollection<Location> imLocation;
+        private bool isEnabled;
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                isEnabled = value;
+                RaisePropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+
+       
         private bool isBusy;
         public bool IsBusy
         {
@@ -122,25 +137,45 @@ namespace B4.PE3.DellobelI.ViewModels
 
         #endregion
 
+        private async Task GetLocation()
+        {
+
+            //var imGroup = await locationGroupsService.GetLocationGroupList(currentLocation.LocationGroupId);
+            
+            var imLoc = await locationsService.GetRecentstLocation();
+            location = new Location();
+            location.LocationName = imLoc.LocationName;
+            location.Latitude = imLoc.Latitude;
+            location.Longitude = imLoc.Longitude;
+            location.TimeLocation = imLoc.TimeLocation;
+        }
+
+
         public override void Init(object initData)
         {
-            Location location = initData as Location;
-            currentLocation = location;
+            Location initLocation = initData as Location;
+            currentLocation = initLocation;
            
-                PageTitle = $"{currentLocation.LocationName} ";
-          
-
+            if (initLocation.LocationId == Guid.Empty)
+            {
+                PageTitle ="Nieuwe Locatie";
+            }
+            else
+            {
+                PageTitle = $"{currentLocation.LocationName}";
+            }
             LoadLocationState();
             base.Init(initData);
         }
 
         private void LoadLocationState()
         {
-           
-            LocationName = currentLocation.LocationName;
-            Latitude = currentLocation.Latitude.ToString();
-            Longitude = currentLocation.Longitude.ToString();
-            TimeLocation = currentLocation.TimeLocation.ToString(" d MMMM yyyy HH: mm uur", CultureInfo.CurrentCulture);
+            GetLocation().Wait();
+            LocationName = location.LocationName;
+            Latitude = location.Latitude.ToString();
+            Longitude = location.Longitude.ToString();
+            TimeLocation = location.TimeLocation.ToString(/*" d MMMM yyyy HH: mm uur", CultureInfo.CurrentCulture*/);
+            
         }
 
         private void SaveItemState()
@@ -148,9 +183,12 @@ namespace B4.PE3.DellobelI.ViewModels
             currentLocation.LocationName = LocationName;
             currentLocation.Latitude = Convert.ToDouble(Latitude);
             currentLocation.Longitude = Convert.ToDouble(Longitude);
-            //currentLocation.TimeLocation = Convert.ToDateTime(TimeLocation);
-            
+            currentLocation.TimeLocation = Convert.ToDateTime(TimeLocation);
+          
         }
+        /// <summary>
+        /// Bewaar Locatie aan locatielijst.
+        /// </summary>
 
         public ICommand SaveLocationCommand => new Command(
             async () => {
@@ -158,20 +196,18 @@ namespace B4.PE3.DellobelI.ViewModels
                 {
                     SaveItemState();
 
-                    //if (Validate(currentLocation))
-                    //{
-                        //if (currentLocation.Id == Guid.Empty)
-                        //{
+                    
+                        if (currentLocation.LocationId == Guid.Empty)
+                        {
                             currentLocation.LocationGroup.LocationItems.Add(currentLocation);
                             currentLocation.LocationId = Guid.NewGuid();
-                        //}
+                        }
+                    MessagingCenter.Send(this,
+                    Constants.MessageNames.LocationSaved, currentLocation);
 
-                        MessagingCenter.Send(this,
-                       Constants.MessageNames.LocationSaved, currentLocation);
-                        //use coremethodes to Pop pages in FreshMvvm!
-                        await CoreMethods.PopPageModel(currentLocation, false, true);
-                    //}
-
+                    //use coremethodes to Pop pages in FreshMvvm!
+                    await CoreMethods.PopPageModel(currentLocation, false, true);
+                   
                 }
                 catch (Exception ex)
                 {
@@ -180,22 +216,5 @@ namespace B4.PE3.DellobelI.ViewModels
                 }
             }
         );
-
-        private bool Validate(Location location)
-        {
-            var validationResult = locationValidator.Validate(location);
-            //loop through error to identify properties
-            foreach (var error in validationResult.Errors)
-            {
-                if (error.PropertyName == nameof(location.LocationName))
-                {
-                    LocationNameError = error.ErrorMessage;
-                }
-            }
-            return validationResult.IsValid;
-        }
-     
-
-
     }
 }

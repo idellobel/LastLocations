@@ -14,7 +14,7 @@ namespace B4.PE3.DellobelI.Domain.Services.SQLite
             {
                 try
                 {
-                    //voor alle zekerheid steeds i gebruiker met Guid.Empty (= lokale gebruiker) 
+                    //voor alle zekerheid steeds een gebruiker met Guid.Empty (= lokale gebruiker) 
                     await SaveUser(
                         new User
                         {

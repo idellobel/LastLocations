@@ -11,26 +11,7 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
     public class LocationInMemoryService : ILocationsService
     {
         static ObservableCollection<Location> inMemLocations = new ObservableCollection<Location>();
-        //{
-            //new Location{
-        //            LocationId = Guid.NewGuid(), LocationName="Thuis",
-        //            Position = 1, Longitude = 51.134717, Latitude = 2.761236,
-        //            TimeLocation = DateTime.UtcNow
-
-        //        },
-        //        new Location{
-        //            LocationId = Guid.NewGuid(), LocationName="AlberMonument",
-        //            Position = 2, Longitude = 51.136070, Latitude = 2.755743,
-        //            TimeLocation = DateTime.UtcNow
-
-        //        },
-        //       new Location{
-        //            LocationId = Guid.NewGuid(), LocationName="Vismijn",
-        //            Position = 3, Longitude = 51.133607,  Latitude = 2.748845,
-        //            TimeLocation = DateTime.UtcNow
-
-        //        }
-        //};
+       
         /// <summary> 
         /// /// Gets all locations in memory collection /// 
         /// </summary>
@@ -50,12 +31,15 @@ namespace B4.PE3.DellobelI.Domain.Services.Mock
         }
 
         /// <summary> 
-        /// Gets first location from memory collection  /// 
+        /// Gets most recent location from memory collection  /// 
         /// </summary> 
-        public async Task<Location> GetFirst()
+        public async Task<Location> GetRecentstLocation()
         {
             await Task.Delay(0);
-            return inMemLocations.First();
+            return inMemLocations
+                .OrderByDescending(c => c.TimeLocation.Date)
+                .ThenBy(c => c.TimeLocation.TimeOfDay)
+                .LastOrDefault();
         }
         /// <summary> 
         /// /// Saves a location to memory collection. Updates if existing, Adds if non-existing /// 

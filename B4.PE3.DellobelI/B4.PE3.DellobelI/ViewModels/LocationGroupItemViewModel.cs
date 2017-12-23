@@ -9,13 +9,14 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace B4.PE3.DellobelI.ViewModels
 {
     public class LocationGroupItemViewModel : FreshBasePageModel
     {
-        private ILocationsService locationsService;
-        private Location currentLocation;
+        //private ILocationsService locationsService;
+        //private Location currentLocation;
         private IAppSettingsService settingsService;
         private ILocationGroupsService locationGroupsService;
         private IUsersService usersService;
@@ -24,36 +25,19 @@ namespace B4.PE3.DellobelI.ViewModels
         private IValidator locationGroupValidator;
 
         public LocationGroupItemViewModel(
-            ILocationsService locationsService,
+            //ILocationsService locationsService,
             IAppSettingsService settingsService,
             ILocationGroupsService locationGroupsService,
             IUsersService usersService)
         {
-            this.locationsService = locationsService;
+            //this.locationsService = locationsService;
             this.settingsService = settingsService;
             this.locationGroupsService = locationGroupsService;
             this.usersService = usersService;
             locationGroupValidator = new LocationGroupValidator();
+            //GetLocation().Wait();
+            IsEnabled = true;
         }
-
-        //public Guid Id { get; set; }
-        //public string ItemDescription { get; set; }
-        //public int Order { get; set; }
-        //public DateTime? CompletionDate { get; set; }
-        //public Guid BucketId { get; set; }
-        //public Bucket Bucket { get; set; }
-
-        //public Guid LocationId { get; set; }
-        //public double Latitude { get; set; }
-        //public double Longitude { get; set; }
-        //public double Altitude { get; set; }
-        //public DateTime TimeLocation { get; set; }
-        //public string LocationName { get; set; }
-        //public int Position { get; set; }
-        //public Guid LocationGroupId { get; set; }
-        //public LocationGroup LocationGroup { get; set; }
-        //public Guid Id { get; internal set; }
-
 
         #region Properties 
 
@@ -68,7 +52,18 @@ namespace B4.PE3.DellobelI.ViewModels
             }
         }
 
-       
+        private bool isEnabled ;
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                isEnabled = value;
+                RaisePropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+
 
         private bool isBusy;
         public bool IsBusy
@@ -182,6 +177,7 @@ namespace B4.PE3.DellobelI.ViewModels
             }
         }
 
+       
         /// <summary>
         /// Refreshes the currentLocationGroup (to edit) or initializes a new one (to add)
         /// </summary>
@@ -195,7 +191,7 @@ namespace B4.PE3.DellobelI.ViewModels
             }
             else
             {
-                PageTitle = "Nieuw Locatielijst"; 
+                PageTitle = "Nieuwe Locatielijst"; 
                 currentLocationGroup = new LocationGroup();
                 currentLocationGroup.Id = Guid.NewGuid();
                 currentLocationGroup.Owner = currentUser;
@@ -210,6 +206,7 @@ namespace B4.PE3.DellobelI.ViewModels
         /// </summary>
         private void LoadLocationGroupState()
         {
+
             LocationGroupTitle = currentLocationGroup.Title;
             LocationGroupDescription = currentLocationGroup.Description;
 
@@ -221,6 +218,7 @@ namespace B4.PE3.DellobelI.ViewModels
         /// </summary>
         private void SaveLocationGroupState()
         {
+           
             currentLocationGroup.Title = LocationGroupTitle;
             currentLocationGroup.Description = LocationGroupDescription;
         }
@@ -269,23 +267,29 @@ namespace B4.PE3.DellobelI.ViewModels
         public ICommand OpenLocationPageCommand => new Command<Location>(
             async (Location location) => {
 
-                SaveLocationGroupState();
-                await GetLocation();
-                if (location == null)
-                {
-                    
-                    //registratie nieuwe locatie
-                    location = new Location
+                //try
+                //{
+                    SaveLocationGroupState();
+                    if (location == null)
                     {
-                        LocationName = currentLocation.LocationName ,
-                        Latitude = currentLocation.Latitude,
-                        Longitude = currentLocation.Longitude,
-                        TimeLocation = currentLocation.TimeLocation,
-                        LocationGroup = currentLocationGroup,
-                        LocationGroupId = currentLocationGroup.Id
-                    };
+                        //registratie nieuwe locatie
+                        location = new Location
+                        {
+                            LocationGroup = currentLocationGroup,
+                            LocationGroupId = currentLocationGroup.Id
+                        };
+
+                        await CoreMethods.PushPageModel<LocationViewModel>(location, false, true);
+                        IsEnabled = false;
+                    }
+
+                    //11/12
+                    if (location != null)
+                {
+                    await CoreMethods.PushPageModel<LocationViewModel>(location, false, true);
+                    IsEnabled = false;
                 }
-                await CoreMethods.PushPageModel<LocationViewModel>(location, false, true);
+                    
             }
         );
 
@@ -297,20 +301,7 @@ namespace B4.PE3.DellobelI.ViewModels
             }
         );
 
-        private async Task GetLocation()
-        {
-           
-                //PageTitle = currentLocation.LocationName;
-                var imLoc = await locationsService.GetFirst();
-            currentLocation = new Location();
-                currentLocation.LocationName = imLoc.LocationName;
-                currentLocation.Latitude = imLoc.Latitude;
-                currentLocation.Longitude = imLoc.Longitude;
-                currentLocation.LocationId = imLoc.LocationId;
-                currentLocation.TimeLocation = imLoc.TimeLocation;
-
-
-        }
+       
     }
 }
 

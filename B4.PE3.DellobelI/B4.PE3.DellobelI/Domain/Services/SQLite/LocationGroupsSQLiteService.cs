@@ -12,7 +12,7 @@ namespace B4.PE3.DellobelI.Domain.Services.SQLite
 {
     public class LocationGroupsSQLiteService : SQLiteServiceBase, ILocationGroupsService
     {
-       
+
         public async Task DeleteLocationGroupList(Guid locationGroupId)
         {
             await Task.Run(() =>
@@ -64,6 +64,11 @@ namespace B4.PE3.DellobelI.Domain.Services.SQLite
                 }
             });
         }
+
+        //public Task<IEnumerable<LocationGroup>> GetLocationGrouplistMemory()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task SaveLocationGroupList(LocationGroup locationGroup)
         {

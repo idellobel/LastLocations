@@ -55,6 +55,7 @@
     <Compile Include="Domain\Services\Mock\AppSettingsInMemoryService.cs" />
     <Compile Include="Domain\Services\Mock\LocationGroupInMemoryService.cs" />
     <Compile Include="Domain\Services\Mock\LocationInMemoryService.cs" />
+    <Compile Include="Domain\Services\Mock\MapService.cs" />
     <Compile Include="Domain\Services\Mock\UserInMemoryService.cs" />
     <Compile Include="Domain\Services\SQLite\AppSettingsSQLiteService.cs" />
     <Compile Include="Domain\Services\SQLite\LocationGroupsSQLiteService.cs" />
@@ -62,6 +63,10 @@
     <Compile Include="Domain\Services\SQLite\UsersSQLiteService.cs" />
     <Compile Include="Domain\Validators\LocationGroupValidator.cs" />
     <Compile Include="Domain\Validators\LocationItemValidator.cs" />
+    <Compile Include="Extensions\ImageResourceExtension.cs" />
+    <Compile Include="Pages\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LocationGroupItemViewModel.cs" />
     <Compile Include="ViewModels\LocationGroupViewModel.cs" />
@@ -85,6 +90,7 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +191,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\locations.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

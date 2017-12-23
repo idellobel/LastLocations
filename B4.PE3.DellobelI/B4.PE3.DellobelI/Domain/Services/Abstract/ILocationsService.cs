@@ -9,7 +9,7 @@ namespace B4.PE3.DellobelI.Domain.Services.Abstract
     {
         Task<IEnumerable<Location>> GetAll();
         Task<Location> GetById(Guid id);
-        Task<Location> GetFirst();
+        Task<Location> GetRecentstLocation();
         Task Save(Location location);
         Task DeleteLocation(Guid LocationId);
         

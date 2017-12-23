@@ -25,7 +25,7 @@ namespace B4.PE3.DellobelI.Pages
         {
             MessagingCenter.Subscribe<MainViewModel, Location>(this, Constants.MessageNames.LocationSaveFail,
                async (MainViewModel sender, Location currentlocation) => {
-                   await DisplayAlert("FAILED", $"Coördinaten dienen eerst opgehaald", "Ok");
+                   await DisplayAlert("KAN NIET OPSLAAN", $"Coördinaten dienen eerst opgehaald", "Ok");
                });
 
             base.OnAppearing();

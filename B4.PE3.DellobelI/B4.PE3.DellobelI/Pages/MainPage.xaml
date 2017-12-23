@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:B4.PE3.DellobelI.ViewModels"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:extensions="clr-namespace:B4.PE3.DellobelI.Extensions"
              xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
              x:Name="page"
              Title="Huidige locatie"
              x:Class="B4.PE3.DellobelI.Pages.MainPage">
-    <!--<ContentPage.BindingContext>
-        <vm:MainViewModel/>
-    </ContentPage.BindingContext>-->
+  
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="&#128190;"   Command="{Binding SaveCurrentLocationCommand}"  ></ToolbarItem>
+         <ToolbarItem Text="&#128190;"   Command="{Binding SaveCurrentLocationCommand}"  ></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content >
         <AbsoluteLayout >

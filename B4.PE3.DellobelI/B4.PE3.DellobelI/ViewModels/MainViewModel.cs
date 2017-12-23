@@ -1,21 +1,16 @@
 ﻿
 using FreshMvvm;
 using B4.PE3.DellobelI.Domain.Models;
-using B4.PE3.DellobelI.Domain.Services.Mock;
 using B4.PE3.DellobelI.Domain.Validators;
-using B4.PE3.DellobelI.Pages;
 using Plugin.Geolocator; // Geolocatie service
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
-
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using B4.PE3.DellobelI.Domain.Services.Abstract;
-using System.Collections.ObjectModel;
 
 namespace B4.PE3.DellobelI.ViewModels
 {
@@ -23,8 +18,6 @@ namespace B4.PE3.DellobelI.ViewModels
     {
         private Location currentLocation;
         private LocationItemValidator locationValidator;
-        //private LocationInMemoryService locationService;
-        ////ILocationGroupsService locationGroupsService;
         IAppSettingsService settingsService;
         ILocationsService locationsService;
 
@@ -166,8 +159,8 @@ namespace B4.PE3.DellobelI.ViewModels
         {
             
             IsBusy = true;
-           
-            
+
+            //Voor manuele invoer UWP schakel locator uit:
             var locator = CrossGeolocator.Current; // implementatie huidige locatie met Plugin.Geolocator
             locator.DesiredAccuracy = 20; // Gewenste nauwkeurigheid op 20 meter
 
@@ -175,18 +168,27 @@ namespace B4.PE3.DellobelI.ViewModels
             {
 
                 var position = await locator.GetPositionAsync(); // Task bepaling positie
-                
+
 
                 Latitude = position.Latitude.ToString();
                 Longitude = position.Longitude.ToString();
-               
-              
+
+                //Manueel positie invoeren op UWP
+
+                //Latitude = "50.895170";
+                //Longitude = "4.341302";
+
+
                 TimeLocation = DateTime.UtcNow.ToLocalTime().ToString(" d MMMM yyyy HH:mm:ss",CultureInfo.CurrentCulture );
 
                 Map MyMap = new Map();
 
-                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
+                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(Convert.ToDouble(Latitude), Convert.ToDouble(Longitude)),
                  Distance.FromKilometers(1)));
+
+                //Werking met Android-emulator:
+                //Kolom naast emulator, druk '...(more), linksboven Location => scherm Longitude/Latitude, druk SEND. 
+               
 
             }
             catch (Exception ex)
@@ -200,11 +202,7 @@ namespace B4.PE3.DellobelI.ViewModels
 
         }
 
-        
 
-       
-
-       
         public ICommand GetCurrentLocationCommand => new Command(
             async () => {
                             await RetreiveLocationAsync();
@@ -293,6 +291,7 @@ namespace B4.PE3.DellobelI.ViewModels
             base.ViewIsAppearing(sender, e);
             IsEnabled = true;
             EmptyLocationState();
+            currentLocation = null;
         }
 
        

@@ -13,5 +13,6 @@ namespace B4.PE3.DellobelI.Domain.Services.Abstract
         Task<LocationGroup> GetLocationGroupList(Guid locationGroupId);
         Task<IEnumerable<LocationGroup>> GetLocationGrouplistForUser(Guid userid);
         Task SaveLocationGroupList(LocationGroup locationGroup);
+       
     }
 }

@@ -14,15 +14,15 @@ namespace B4.PE3.DellobelI.Domain.Validators
         {
             RuleFor(locationGroup => locationGroup.Title)
                 .NotEmpty()
-                .WithMessage("Titelveld mag niet leeg zijn")
+                .WithMessage("Titel mag niet leeg zijn.")
                 .Length(3, 50)
-                .WithMessage("Tekst dient min 3 tot max 50 karakters te bevatten ");
+                .WithMessage("Titel dient min 3 tot max 50 karakters te bevatten.");
 
             RuleFor(locationGroup => locationGroup.Description)
                 .NotEqual(b => b.Title)
-                .WithMessage("Beschrijving dient verschillend van de titel te zijn")
+                .WithMessage("Beschrijving dient verschillend van de titel te zijn.")
                 .NotEmpty()
-                .WithMessage("Veld beschtijving mag niet leeg zijn");
+                .WithMessage("Beschrijving mag niet leeg zijn.");
         }
     }   
 }

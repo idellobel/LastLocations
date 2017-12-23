@@ -17,14 +17,20 @@ namespace B4.PE3.DellobelI.Pages
         {
             MessagingCenter.Subscribe<LocationViewModel, Location>(this, Constants.MessageNames.LocationSaved,
                async (LocationViewModel sender, Location savedLocation) => {
-                   await DisplayAlert("Bewaard", $" {savedLocation.LocationName} is toegevoegd aan lijst", "Ok");
+                   await DisplayAlert($"{savedLocation.LocationName} Bewaard", $"{savedLocation.LocationName} is toegevoegd aan lijst.\n" +
+                       $"Terug Locatielijst = Backtoets of Oplag-icoon.\n\n" +
+                       $"Bewaar ook in de Locatielijst, in dit geval:\n\n" +
+                       $"{savedLocation.LocationGroup.Title}!", "Ok");
                });
+
+           
 
             base.OnAppearing();
         }
 
         protected override void OnDisappearing()
         {
+            
             MessagingCenter.Unsubscribe<LocationViewModel, Location>(this, Constants.MessageNames.LocationSaved);
 
             base.OnDisappearing();

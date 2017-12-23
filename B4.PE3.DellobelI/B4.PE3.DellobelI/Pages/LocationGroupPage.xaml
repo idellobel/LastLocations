@@ -4,18 +4,20 @@
              xmlns:vm="clr-namespace:B4.PE3.DellobelI.ViewModels"
              xmlns:bhv="clr-namespace:B4.PE3.DellobelI.Behaviors" 
              xmlns:views="clr-namespace:B4.PE3.DellobelI.Pages"
-             Title="Locaties"
+             Title="Locatielijsten"
              x:Name="page"
              x:Class="B4.PE3.DellobelI.Pages.LocationGroupPage">
    
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="&#128196;" Command="{Binding OpenLocationGroupItemPageCommand}" ></ToolbarItem>
-        <ToolbarItem Text="&#x2699;" Command="{Binding OpenSettingsPageCommand}"></ToolbarItem>
+        <ToolbarItem Text="&#128260;" Command="{Binding BackToMainPageCommand}" ></ToolbarItem>
+        <ToolbarItem Text="&#128220;" Command="{Binding OpenLocationGroupItemPageCommand}" ></ToolbarItem>
+        <ToolbarItem Text="&#128272;" Command="{Binding OpenSettingsPageCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <AbsoluteLayout AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1">
         <!--<ScrollView>-->
             <StackLayout Style="{StaticResource MainLayout}">
+            <!--<Button Text="Locaties op kaart" Command="{Binding OpenMapCommand}" HorizontalOptions="Start" Margin="0,20,0,0" />-->
             <ListView ItemsSource="{Binding LocationGrouplist}">
                     <ListView.Behaviors>
                         <bhv:EventToCommandBehavior 
@@ -26,7 +28,10 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                            <ViewCell>
-                                <ViewCell.ContextActions>
+                            <ViewCell.ContextActions>
+                                <MenuItem Command="{Binding BindingContext.OpenMapCommand, Source={x:Reference page}}" 
+                                          CommandParameter="{Binding .}" 
+                                          Text="&#128205;" />
                                 <MenuItem Command="{Binding BindingContext.OpenLocationGroupItemPageCommand, Source={x:Reference page}}" 
                                           CommandParameter="{Binding .}" 
                                           Text="&#9998;" />
